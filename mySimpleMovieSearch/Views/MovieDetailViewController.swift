@@ -27,22 +27,27 @@ class MovieDetailViewController: UIViewController {
     // MARK: - Custom Methods
     func updateViews() {
         guard let selectedMovie = movie else { return }
-        let title = selectedMovie.title
-        let rating = selectedMovie.rating
-        let image = selectedMovie.posterPath
-        movieTitleLabel.text = "Movie Title: \(title)"
-        movieRatingLabel.text = "Movie Rating: \(rating)"
-        movieOverViewLabel.text = selectedMovie.overview
+        
+        MoviesAPIService.getImageFor(movie: selectedMovie) { (result) in
+            switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.moviePosterImageView.image = image
+                }
+                
+                case .failure(let error):
+                print(error)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            let title = selectedMovie.title
+            let rating = selectedMovie.rating
+            let overview = selectedMovie.overview
+            self.movieTitleLabel.text = "Movie Title: \(title)"
+            self.movieRatingLabel.text = "Movie Rating: \(rating)"
+            self.movieOverViewLabel.text = overview
+        }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

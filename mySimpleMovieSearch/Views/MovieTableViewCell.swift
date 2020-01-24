@@ -33,11 +33,15 @@ class MovieTableViewCell: UITableViewCell {
         }
         
         DispatchQueue.main.async {
-            self.movieTitleLabel.text = existingMovie.title
-            self.movieRatingLabel.text = String(existingMovie.rating)
-            self.movieOverViewLabel.text = existingMovie.overview
+            let title = existingMovie.title
+            let rating = existingMovie.rating
+            let overview = existingMovie.overview
+            self.movieTitleLabel.text = "Title: \(title)"
+            self.movieRatingLabel.text = "Rating: \(rating)"
+            self.movieOverViewLabel.text = overview
         }
         print(existingMovie)
+
     }
 
 }
